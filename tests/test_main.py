@@ -1,4 +1,4 @@
-from main import get_message
+from myproject.main import get_message
 
 
 def test_get_message():
