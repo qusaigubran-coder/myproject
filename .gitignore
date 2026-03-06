@@ -16,3 +16,6 @@ dist/
 
 # Editors
 .vscode/
+
+.env
+*.log

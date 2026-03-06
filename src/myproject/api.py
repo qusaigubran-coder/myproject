@@ -1,6 +1,9 @@
 from fastapi import FastAPI, Header, Request
 
+from myproject.logging_config import configure_logging
 from myproject.webhook import handle_webhook
+
+configure_logging()
 
 app = FastAPI(title="myproject webhook server")
 
