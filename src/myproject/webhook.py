@@ -7,7 +7,7 @@ from typing import Any
 from fastapi import Header, HTTPException, Request, status
 
 from myproject.config import get_settings
-from myproject.idempotency import register_event
+from myproject.idempotency import IdempotencyUnavailableError
 
 logger = logging.getLogger(__name__)
 
@@ -54,7 +54,22 @@ async def handle_webhook(
             detail="Missing required fields",
         )
 
-    if not register_event(str(event_id)):
+    settings = get_settings()
+    store = request.app.state.idempotency_store
+
+    try:
+        is_new = await store.register_event(
+            event_id=str(event_id),
+            ttl_seconds=settings.webhook_event_ttl_seconds,
+        )
+    except IdempotencyUnavailableError as exc:
+        logger.error("Webhook failed: idempotency_unavailable")
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail="Idempotency store unavailable",
+        ) from exc
+
+    if not is_new:
         logger.info(
             "Webhook duplicate ignored: event_id=%s event_type=%s",
             event_id,
