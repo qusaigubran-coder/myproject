@@ -1,5 +1,18 @@
-*.egg-info/
+# Python
 __pycache__/
 *.pyc
-.pytest_cache/
+
+# Virtual environment
 .venv/
+env/
+
+# Testing
+.pytest_cache/
+
+# Build artifacts
+build/
+dist/
+*.egg-info/
+
+# Editors
+.vscode/
