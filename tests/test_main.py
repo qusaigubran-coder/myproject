@@ -1,5 +1,5 @@
 from myproject.main import get_message
 
 
-def test_get_message():
-    assert get_message() == "Hello from Dev Container"
+def test_get_message() -> None:
+    assert get_message() == "Hello from myproject CLI"

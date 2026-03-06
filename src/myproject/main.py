@@ -1,5 +1,5 @@
 def get_message() -> str:
-    return "Hello from Dev Container"
+    return "Hello from myproject CLI"
 
 
 def main() -> None:
